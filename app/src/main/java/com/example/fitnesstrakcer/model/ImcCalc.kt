@@ -10,5 +10,6 @@ data class ImcCalc(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "type") val type: String,
     @ColumnInfo(name = "result") val result: Double,
+    @ColumnInfo(name = "message") val message: String,
     @ColumnInfo(name = "createdDate") val createdDate: Date = Date()
 )

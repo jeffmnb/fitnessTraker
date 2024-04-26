@@ -3,12 +3,13 @@ package com.example.fitnesstrakcer
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         val optionsList = mutableListOf<OptionList>(
             OptionList(1, R.string.txt_imc1, R.drawable.imc_icon),
-            OptionList(2, R.string.txt_imc2, R.drawable.history_icon)
+            OptionList(2, R.string.txt_imc2, R.drawable.tbm_icon)
         )
 
         rvOptionList = findViewById(R.id.rVOptionsList)
@@ -34,10 +35,27 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intentNavigate)
                 }
 
-                else -> Toast.makeText(this, "Abrir tela X", Toast.LENGTH_SHORT).show()
+                else -> {
+                    val intentNavigate = Intent(this, IMCRegisters::class.java)
+                    startActivity(intentNavigate)
+                }
             }
         }
         rvOptionList.layoutManager = GridLayoutManager(this, 2)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.searchMenu) {
+            val intentNavigate = Intent(this, IMCRegisters::class.java)
+            startActivity(intentNavigate)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private class RvOptionListAdapter(
@@ -48,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvOptionListHolder {
             val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.main_item, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.option_item, parent, false)
             return RvOptionListHolder(view)
         }
 
@@ -78,4 +96,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }

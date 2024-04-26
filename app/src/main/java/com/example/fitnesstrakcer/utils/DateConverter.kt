@@ -1,4 +1,4 @@
-package com.example.fitnesstrakcer.model
+package com.example.fitnesstrakcer.utils
 
 import androidx.room.TypeConverter
 import java.util.Date

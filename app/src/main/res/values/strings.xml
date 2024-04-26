@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Fitness Tracker</string>
     <string name="txt_imc1">IMC</string>
-    <string name="txt_imc2">HISTÓRICO</string>
+    <string name="txt_imc2">TMB</string>
     <string name="imc_desc">IMC é a sigla para Índice de Massa Corporal que serve para avaliar o peso
         do indivíduo em relação à sua altura e assim indicar se está dentro do peso ideal,
         acima ou abaixo do peso desejado.\n\nPreencha os campos de peso e altura para descobrir o seu IMC</string>
@@ -19,4 +19,5 @@
     <string name="imc_response">Seu IMC é: %1$.2f</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="searchMenu">Histórico IMC</string>
 </resources>

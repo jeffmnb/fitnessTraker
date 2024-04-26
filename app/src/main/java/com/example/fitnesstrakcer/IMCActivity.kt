@@ -1,6 +1,7 @@
 package com.example.fitnesstrakcer
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fitnesstrakcer.model.ImcCalc
 
 class IMCActivity : AppCompatActivity() {
 
@@ -43,16 +45,17 @@ class IMCActivity : AppCompatActivity() {
 
 
     private fun caculateIMC(weight: Int, height: Int) {
-        val result = weight / ((height / 100.0) * (height / 100.0))
+        val imcCalc = weight / ((height / 100.0) * (height / 100.0))
 
         val inputService = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputService.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 
-        AlertDialog.Builder(this).setTitle(getString(R.string.imc_response, result))
-            .setMessage(imcResponse((result)))
+        AlertDialog.Builder(this).setTitle(getString(R.string.imc_response, imcCalc))
+            .setMessage(imcResponse((imcCalc)))
             .setNegativeButton("Salvar") { dialog, _ ->
                 // salvar
-                dialog.dismiss()
+                saveImcResponse(imcCalc)
+//                dialog.dismiss()
             }
             .setPositiveButton("Obrigado") { dialog, _ ->
                 dialog.dismiss()
@@ -75,5 +78,26 @@ class IMCActivity : AppCompatActivity() {
                 else -> R.string.imc_extreme_weight
             }
         )
+    }
+
+    private fun saveImcResponse(imcCalc: Double) {
+
+        val imcMessage = imcResponse(imcCalc)
+
+        Thread {
+            val app = application as App
+            val imcDao = app.db.imcCalcDao()
+
+            imcDao.insert(ImcCalc(type = "imc", result = imcCalc, message = imcMessage))
+
+            runOnUiThread {
+                Toast.makeText(this@IMCActivity, "Salvo com sucesso!", Toast.LENGTH_SHORT).show()
+
+                val intentNavigate = Intent(this, IMCRegisters::class.java)
+                intentNavigate.putExtra("type", "imc")
+                finish()
+                startActivity(intentNavigate)
+            }
+        }.start()
     }
 }
